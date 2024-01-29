@@ -1,0 +1,63 @@
+Objetivo de la practica: Programar en Haskell un int´erprete de un lenguaje imperativo sencillo.
+
+Descripcion: Las caracterısticas del lenguaje considerado son las siguientes:
+
+Solo se consideran variables de tipo entero, que no hace falta declarar.
+
+Hay tres tipos de instrucciones:
+ Instruccion de asignacion: x := e, donde x es una variable y e es una expresion aritmetica.
+Una expresion aritmetica esta formada por enteros, variables, sumas, restas y multiplicaciones
+de otras expresiones.
+
+ Instruccion condicional: Cond b p p’, donde b es una expresion booleana y p, p’ son programas.
+Las expresiones booleanas son: comparaciones (=, <, >, <=, >=) de expresiones aritmeticas,
+negaciones, conjunciones y disyunciones de otras expresiones booleanas.
+
+ Instruccion de bucle: While b p, donde b es una expresion booleana y p es un programa.
+El efecto de ejecutar una instruccion es modificar el estado (valor actual) de las variables, de acuerdo
+con la forma estandar de entender el significado de las instrucciones.
+
+
+Un programa no es mas que una secuencia de instrucciones que se ejecutan, claro, en secuencia.
+
+El estado inicial de la ejecuci´on de un programa no se determina en el propio programa, sino que
+se supone dado de manera adicional al comenzar la ejecuci´on.
+
+El resultado final de la ejecuci´on de un programa es el valor que tenga al final una variable distinguida de nombre R.
+
+Ejemplo: El siguiente programa calcula el factorial de X (mas exactamente, del valor que tenga la variable
+X en el estado inicial): Y := X
+R := 1
+While Y>0 R := R*Y
+Y := Y-1
+Si ejecutamos ese programa a partir de un estado inicial en el que X tenga almacenado el valor 3, al
+terminar la ejecucion nos encontramos el valor 6 en la variable R.
+¿Que se debe implementar?
+
+ Tipos (o alias de tipos) para representar adecuadamente instrucciones, programas, expresiones
+aritmeticas, expresiones booleanas, estados, etc.
+
+ Una funci´on ejecuta:: Programa -> Estado -> Integer que proporcione el resultado de
+la ejecucion de un programa a partir de un estado inicial. Por supuesto, pueden ser necesarias
+algunas funciones auxiliares.
+
+ Sendas funciones de aridad cero factorial y s0 (para ejemplos) cuyos valores sean, respectivamente:
+◦ el programa para el calculo del factorial escrito arriba, de acuerdo con la representacion
+determinada por los tipos que se hayan definido,
+◦ el estado inicial en el que la variable X vale 3 y las demas no tienen valor definido.
+Por ejemplo, de acuerdo con una representacion que tengo yo en mente (y que podeis si quer´eis
+utilizar vosotros tambien) tendr´ıamos:
+factorial = ["Y" := V "X",
+"R" := I 1,
+While (I 0 :< V "Y")
+["R" := V "R" :* V "Y",
+"Y" := V "Y" :- I 1
+]
+]
+s0 = [("X",3)]
+Y la ejecucion del programa en el interprete de GHC resultarıa en lo siguiente:
+> ejecuta factorial s0
+6
+ No se pide ni se espera que se haga ningun tipo de analisis sintactico de los programas,
+sino que se supone que estan escritos en la representacion abstracta dada por los tipos (como
+en el ejemplo de factorial anterior).
